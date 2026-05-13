@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>職涯六站地圖｜講座延伸文章</title>
+<style>
+  :root {
+    --primary: #3d2b1f;
+    --secondary: #8b5e3c;
+    --accent: #c9a96e;
+    --bg: #faf7f2;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --muted: #6b6b6b;
+    --border: #e5ddd3;
+    --hover: #f5efe8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+  header {
+    text-align: center;
+    padding: 40px 20px 32px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: #fff;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 32px;
+  }
+  header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+  header p { font-size: 0.95rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .nav-hint {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-hint svg { flex-shrink: 0; }
+  .station {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .station:hover { box-shadow: 0 4px 16px rgba(61,43,31,0.08); }
+  .station-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    cursor: pointer;
+    background: var(--card);
+    transition: background 0.2s;
+  }
+  .station-header:hover { background: var(--hover); }
+  .station-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .station-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .station-num.zero { background: var(--secondary); }
+  .station-text h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+  .station-text span { font-size: 0.8rem; color: var(--muted); }
+  .toggle-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    color: var(--secondary);
+    transition: transform 0.3s;
+  }
+  .station.open .toggle-icon { transform: rotate(180deg); }
+  .station-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .station.open .station-body { max-height: 2000px; }
+  .article-list { padding: 0 22px 22px; }
+  .article-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .article-item:last-child { border-bottom: none; }
+  .article-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--hover);
+    color: var(--secondary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .article-content { flex: 1; }
+  .article-content a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 4px;
+    word-break: break-word;
+  }
+  .article-content a:hover { color: var(--secondary); text-decoration: underline; }
+  .article-content p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f0e6d8;
+    color: var(--secondary);
+    margin-right: 6px;
+    white-space: nowrap;
+  }
+  .bonus-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.85rem;
+  }
+  .bonus-table th, .bonus-table td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: left;
+  }
+  .bonus-table th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+  }
+  .bonus-table tr:nth-child(even) { background: var(--hover); }
+  .bonus-table td { color: var(--text); }
+  .bonus-table td:first-child { font-weight: 600; color: var(--primary); }
+  footer {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .quick-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .quick-jump button {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--secondary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .quick-jump button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.3rem; }
+    .station-header { padding: 14px 16px; }
+    .article-list { padding: 0 16px 16px; }
+    .bonus-table { font-size: 0.75rem; }
+    .bonus-table th, .bonus-table td { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="badge">半本真人故事書 × 職涯導航</div>
+    <h1>職涯六站地圖｜講座延伸文章</h1>
+    <p>56歲品管資深部門主管 × 27年職場現場觀察<br>講座中提到的每一篇文章，都能在這裡找到對應章節與連結</p>
+  </header>
+
+  <div class="nav-hint">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+    <span>點擊下方各章節即可展開文章列表。建議依照講座進度分段閱讀，或直接使用快速跳轉。</span>
+  </div>
+
+  <div class="quick-jump">
+    <button onclick="jumpTo('s0')">開場</button>
+    <button onclick="jumpTo('s1')">第一站</button>
+    <button onclick="jumpTo('s2')">第二站</button>
+    <button onclick="jumpTo('s3')">第三站</button>
+    <button onclick="jumpTo('s4')">第四站</button>
+    <button onclick="jumpTo('s5')">第五站</button>
+    <button onclick="jumpTo('s6')">彩蛋總表</button>
+  </div>
+
+  <!-- 第零站 -->
+  <div class="station open" id="s0">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num zero">0</div>
+        <div class="station-text">
+          <h3>開場｜木匠的兒子，為什麼能講職涯？</h3>
+          <span>10分鐘 · 故事引子</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <div class="article-item">
+          <div class="article-icon">📖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342740" target="_blank">別把《職涯》經營得如此慘澹，好嗎？</a>
+            <p><span class="tag">fanshome</span>開場破題：職涯不是「找到工作」就結束，而是一輩子的經營。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344895" target="_blank">職涯勝出｜找一句話，可以持續鞭策你前進的力量</a>
+            <p><span class="tag">fanshome</span>木匠父親的「量七次才下刀」，就是講者持續27年的那句話。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第一站 -->
+  <div class="station" id="s1">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num">1</div>
+        <div class="station-text">
+          <h3>第一站｜求職勝出：從履歷到面試</h3>
+          <span>20分鐘 · 工具交付：自傳、自我介紹、面試緊張</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/interview_job_skill" target="_blank">面試前先搞懂你自己！3個關鍵步驟讓你不再瞎投履歷</a>
+            <p><span class="tag">guide</span>先釐清自己是誰，再動筆寫履歷。對應講座「申論題思維」。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344523" target="_blank">如何寫出含金量高的自傳？附案例</a>
+            <p><span class="tag">fanshome</span>「問題解決敘事法」：不是列經歷，是講你發現什麼問題→怎麼解決→學到什麼。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=345349" target="_blank">履歷上如何展現：你面對問題、解決問題的態度？</a>
+            <p><span class="tag">fanshome</span>把「木匠之子」的成長背景轉化為解決問題的態度證據。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344696" target="_blank">怎樣自我介紹，可以讓人印象深刻？</a>
+            <p><span class="tag">fanshome</span>「3H公式」：Head（專業）、Heart（熱情）、Hand（行動）。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342021" target="_blank">求職勝出｜面試時，如何與緊張共處，穩定發揮日常實力？</a>
+            <p><span class="tag">fanshome</span>緊張不是敵人，是身體在幫你準備。認知重構實作法。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=345443" target="_blank">『視訊』面試，擊敗對手的小技巧</a>
+            <p><span class="tag">fanshome</span>線上面試的場景設定、眼神接觸與設備檢查清單。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">📝</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/intership_interview_skills" target="_blank">收到實習邀請函該怎麼回？這樣做才會讓主管秒錄取你！</a>
+            <p><span class="tag">guide</span>實習邀約的回覆禮儀與加分細節，展現職場成熟度。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎯</div>
+          <div class="article-content">
+            <span style="font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">QA職缺彩蛋：CQE 客戶品質工程師</span>
+            <p>需要多益650分以上，能跟客戶英文應對。適合外語系、管理系學生跨領域進科技業。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第二站 -->
+  <div class="station" id="s2">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num">2</div>
+        <div class="station-text">
+          <h3>第二站｜第一份工作怎麼選？大企業、小公司、研究所？</h3>
+          <span>20分鐘 · 工具交付：職涯金三角、碩士甄選</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342091" target="_blank">職人觀點｜我該去大企業，還是找一家有前途的小公司？</a>
+            <p><span class="tag">fanshome</span>大企業vs小公司的「能力養成對照表」。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/Big_corporations_small_companies" target="_blank">大公司還是小公司？一篇搞懂優缺點差在哪！</a>
+            <p><span class="tag">guide</span>系統化比較：制度、學習曲線、升遷速度、視野格局。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342551" target="_blank">走的漂亮｜考慮年後辭職，你真的該跟進嗎？</a>
+            <p><span class="tag">fanshome</span>離職決策的「職涯金三角」：個人、資料、環境。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/career-prospects/Workplace_skill_Mentor" target="_blank">職場不確定時代，該離開還是留下？</a>
+            <p><span class="tag">guide</span>景氣波動中的決策框架：是環境問題，還是成長停滯？</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342976" target="_blank">一份工作勉強待上1年？抱歉，一刻都待不下去！</a>
+            <p><span class="tag">fanshome</span>「待滿一年」的迷思拆解：什麼時候該果斷離開。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/career-prospects/Regret_changing_jobs" target="_blank">跳槽不適應想回鍋？3 步驟診斷你該不該回老東家</a>
+            <p><span class="tag">guide</span>回鍋的利弊評估：是懷舊，還是真的適合？</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🏢</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=343111" target="_blank">缺工大浪潮｜走，帶著熱情，轉職去！</a>
+            <p><span class="tag">fanshome</span>轉職不是逃避，是帶著累積的熱情與能力遷徙。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎓</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=346054" target="_blank">研究所碩士甄選，我該如何準備？</a>
+            <p><span class="tag">university</span>碩士甄選的「準備時間軸」與書審面試策略。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎓</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=346188" target="_blank">誤入叢林的小兔｜為何台大文組碩士畢業月薪34K？</a>
+            <p><span class="tag">university</span>學歷與薪資的迷思：研究所不是萬靈丹，關鍵是「能力對接」。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎓</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=345005" target="_blank">學校與職場之間的鴻溝，你跨越了嗎？（上篇）</a>
+            <p><span class="tag">university</span>從學生思維轉換為職場思維的三道門檻。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎯</div>
+          <div class="article-content">
+            <span style="font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">QA職缺彩蛋：QS 品質系統工程師</span>
+            <p>QA的「內部律師」，負責維護ISO系統。未來可考ISO/OS證照，適合喜歡條理、文書能力強的學生，各科系皆可。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第三站 -->
+  <div class="station" id="s3">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num">3</div>
+        <div class="station-text">
+          <h3>第三站｜職場前三年：新人茫然 → 靠譜職場人</h3>
+          <span>25分鐘 · 工具交付：三大策略、閉環公式、職場同心圓</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/Career_Mentor" target="_blank">職場新鮮人指南：找對人、練實力、累積績效的三步法</a>
+            <p><span class="tag">guide</span>新人入職的三個錨點：導師、技能、可見成果。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=346368" target="_blank">新進人員，如何解決職場茫然：石頭哥的三大策略</a>
+            <p><span class="tag">fanshome</span>找導師、訂小勝、建系統。茫然不是沒方向，是沒有最小行動。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/Workplace_Skill_Upgrade_Guide" target="_blank">從新人到老鳥，最先要練好的，就是職場適應力</a>
+            <p><span class="tag">guide</span>適應力不是忍耐，是主動調整節奏、理解潛規則、建立信任帳戶。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344011" target="_blank">當新人，讓你辦事也靠譜的技巧</a>
+            <p><span class="tag">fanshome</span>「閉環公式」：收到任務→確認理解→執行→回報結果→檢討改進。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344287" target="_blank">職涯勝出｜輕鬆適應職場，做好每一件事情的方法</a>
+            <p><span class="tag">fanshome</span>把「做好」拆解為：釐清期待、設定檢查點、主動回報。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/Workplace_Skill" target="_blank">在職場上，如何展現協同作業能力？</a>
+            <p><span class="tag">guide</span>跨部門協作的三個可觀察行為：主動對齊、共享資訊、承擔邊界。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342348" target="_blank">職場上，有些話「不該說」，你知道嗎？</a>
+            <p><span class="tag">fanshome</span>新人常踩的溝通地雷：抱怨、推諉、過度承諾。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=343429" target="_blank">職涯勝出｜職場常犯的「程序」錯誤，你也常如此嗎？</a>
+            <p><span class="tag">fanshome</span>不是能力不足，是流程意識不足：SOP思維與異常處理。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=343616" target="_blank">職涯勝出｜你是個會解決問題的職場人嗎？</a>
+            <p><span class="tag">fanshome</span>問題解決者的四個特徵：定義問題、拆解假設、驗證方案、預防再發。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=343942" target="_blank">其實你早該明白，在職涯發展中要功成名就，脫離不了『職場的同心圓』</a>
+            <p><span class="tag">fanshome</span>核心（專業）、第二圈（協作）、第三圈（視野）。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/growing_up_Leadership" target="_blank">表現不錯卻卡在升遷？用「冰山模型」看出你是否已經具備管理</a>
+            <p><span class="tag">guide</span>水面下看不見的能力：情緒管理、系統思考、影響力。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🌱</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/job-hunting/Career_growlup_supervisor" target="_blank">別只看薪水！跟對主管，職涯價值才會翻倍</a>
+            <p><span class="tag">guide</span>判斷好主管的三個指標：願意教、敢授權、會護短。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎯</div>
+          <div class="article-content">
+            <span style="font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">QA職缺彩蛋：PQE 製程品質工程師 & NPQE 新產品品質工程師</span>
+            <p>PQE適合工科背景，要懂製程與數據分析；NPQE適合喜歡變化、具專案管理思維的學生。加分條件：統計基礎、六標準差、PMP。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第四站 -->
+  <div class="station" id="s4">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num">4</div>
+        <div class="station-text">
+          <h3>第四站｜職涯中期的動力與倦怠：心累了怎麼辦？</h3>
+          <span>20分鐘 · 工具交付：在職離職判斷、心累三招、課題分離</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344469" target="_blank">職涯勝出｜缺乏動力時，你該如何重獲動力</a>
+            <p><span class="tag">fanshome</span>動力不是等來的，是設計來的：微目標、即時回饋、意義連結。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=346981" target="_blank">你心累了嗎？教你3招，讓你擊潰職場的隱形殺手</a>
+            <p><span class="tag">fanshome</span>心累三招：微習慣充電、邊界管理、意義重連。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=342880" target="_blank">不想努力了......「在職離職」，這適合你嗎？</a>
+            <p><span class="tag">fanshome</span>「在職離職」的判斷矩陣：是環境問題？能量問題？還是價值問題？</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=343225" target="_blank">職涯勝出｜如何才能讓你的職涯，無懼於裁員風波？</a>
+            <p><span class="tag">fanshome</span>抗裁員的「職涯免疫系統」：可遷移技能、外部網絡、財務緩衝。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=343329" target="_blank">職涯勝出｜不在頂尖企業，沒有好商品，就沒有好業績嗎？</a>
+            <p><span class="tag">fanshome</span>平台不是一切，個人品牌與解決問題的能力才是長期資產。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=347033" target="_blank">職場上，碰到超討厭的人，我要怎麼跟他共處啊？</a>
+            <p><span class="tag">fanshome</span>與討厭的人共處的「課題分離法」：區分「他的事」與「我的事」。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🔋</div>
+          <div class="article-content">
+            <a href="https://guide.1111.com.tw/article/career-prospects/career_leadership" target="_blank">在職場中扮演什麼角色？3 種領導模式幫你找到答案</a>
+            <p><span class="tag">guide</span>即使不是主管，也能選擇「專家型、協調型、願景型」領導角色。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎯</div>
+          <div class="article-content">
+            <span style="font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">QA職缺彩蛋：SQM 供應商品質工程師</span>
+            <p>QA的「外交官」，管理供應鏈品質。適合喜歡往外跑、談判、有商業頭腦的學生。工管、供應鏈管理背景尤佳。加分：SCOR、ISO/TS知識。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第五站 -->
+  <div class="station" id="s5">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num">5</div>
+        <div class="station-text">
+          <h3>第五站｜AI世代與長期職涯：56歲看未來</h3>
+          <span>15分鐘 · 工具交付：人機協作、斜槓T型、SoWhat/WhySo</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <div class="article-item">
+          <div class="article-icon">🤖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=FANS&id=344140" target="_blank">職涯勝出｜AI世代，你該擔心，還是欣喜它的到來？</a>
+            <p><span class="tag">fanshome</span>人機協作思維：AI做資訊處理，人做價值判斷與意義建構。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🤖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=345548" target="_blank">微習慣｜只要三個步驟，你再也不會計畫只是計畫</a>
+            <p><span class="tag">university</span>56歲讀DBA的秘訣：不是大計畫，是每天15分鐘的微習慣。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🤖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=346247" target="_blank">如何當個快樂的『斜槓』，槓出你的精采人生？</a>
+            <p><span class="tag">university</span>斜槓的「T型人才」模型：一項專精深，多項涉獵廣。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🤖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=346365" target="_blank">邏輯思考力｜So What與Why So的搭配運用</a>
+            <p><span class="tag">university</span>雙向追問法：So What（那又如何）往上拔高；Why So（為何如此）往下深挖。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🤖</div>
+          <div class="article-content">
+            <a href="https://www.1111.com.tw/1000w/fanshome/discussTopic.asp?cat=University&id=346380" target="_blank">職涯中，你需要哪三種貴人？</a>
+            <p><span class="tag">university</span>導師、盟友、敲門人。56歲還在累積人脈，因為職涯是馬拉松。</p>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-icon">🎯</div>
+          <div class="article-content">
+            <span style="font-weight:600;color:var(--primary);display:block;margin-bottom:4px;">QA職缺彩蛋：QA Lab 實驗室品質工程師</span>
+            <p>QA的「科學家」，操作精密儀器、做失效分析。適合化材、機械、電機背景，喜歡動手做實驗的學生。加分：實驗室認證、材料分析技能。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第六站：彩蛋總表 -->
+  <div class="station" id="s6">
+    <div class="station-header" onclick="toggle(this)">
+      <div class="station-title">
+        <div class="station-num">6</div>
+        <div class="station-text">
+          <h3>附錄｜科技業 QA 六大職缺導覽總表</h3>
+          <span>講座彩蛋一次收藏</span>
+        </div>
+      </div>
+      <div class="toggle-icon">▼</div>
+    </div>
+    <div class="station-body">
+      <div class="article-list">
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">以下為講座中提到的六大品質工程師職缺，包含適合科系與加分條件，供同學對照自身背景參考。</p>
+        <table class="bonus-table">
+          <thead>
+            <tr>
+              <th>職缺名稱</th>
+              <th>縮寫</th>
+              <th>核心能力</th>
+              <th>適合科系</th>
+              <th>加分證照 / 條件</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>客戶品質工程師</td>
+              <td>CQE</td>
+              <td>英文應對、客戶溝通、問題協調</td>
+              <td>外語、管理、商管、應外</td>
+              <td>多益650+、簡報能力</td>
+            </tr>
+            <tr>
+              <td>品質系統工程師</td>
+              <td>QS</td>
+              <td>條文理解、系統維護、稽核應對</td>
+              <td>各科系皆可</td>
+              <td>ISO 9001、ISO 14001、內部稽核員</td>
+            </tr>
+            <tr>
+              <td>製程品質工程師</td>
+              <td>PQE</td>
+              <td>製程理解、數據分析、異常排除</td>
+              <td>機械、化材、工管、電機</td>
+              <td>統計基礎、六標準差綠帶</td>
+            </tr>
+            <tr>
+              <td>新產品品質工程師</td>
+              <td>NPQE</td>
+              <td>專案管理、跨部門協調、風險評估</td>
+              <td>工管、電機、資工</td>
+              <td>PMP、NPI流程、FMEA</td>
+            </tr>
+            <tr>
+              <td>供應商品質工程師</td>
+              <td>SQM</td>
+              <td>供應鏈管理、談判、現場稽核</td>
+              <td>工管、供應鏈、商管</td>
+              <td>SCOR、ISO/TS、駕照（需出差）</td>
+            </tr>
+            <tr>
+              <td>實驗室品質工程師</td>
+              <td>QA Lab</td>
+              <td>儀器操作、失效分析、報告撰寫</td>
+              <td>化材、機械、電機</td>
+              <td>實驗室認證（TAF）、材料分析</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>講者：品管資深部門主管｜27年科技業現場經驗｜元智大學 DBA 博士生</p>
+    <p style="margin-top:4px;">本頁收錄文章皆來自 1111 人力銀行職涯專欄，依講座章節重新編排，方便同學課後閱讀。</p>
+  </footer>
+</div>
+
+<script>
+  function toggle(el) {
+    const station = el.parentElement;
+    station.classList.toggle('open');
+  }
+  function jumpTo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('open');
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  // 預設只開啟第零站，其餘折疊
+  document.querySelectorAll('.station').forEach((s, i) => {
+    if (i !== 0) s.classList.remove('open');
+  });
+</script>
+</body>
+</html>
