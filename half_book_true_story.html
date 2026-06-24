@@ -45,6 +45,30 @@
     margin-bottom: 12px;
     letter-spacing: 1px;
   }
+  .author-links {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  .author-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .author-links a:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+  }
   .nav-hint {
     background: var(--card);
     border: 1px solid var(--border);
@@ -180,6 +204,31 @@
     color: var(--muted);
     font-size: 0.8rem;
   }
+  .footer-links {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .footer-links a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--hover);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .footer-links a:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
   .quick-jump {
     display: flex;
     flex-wrap: wrap;
@@ -205,8 +254,11 @@
     .article-list { padding: 0 16px 16px; }
     .bonus-table { font-size: 0.75rem; }
     .bonus-table th, .bonus-table td { padding: 8px; }
+    .author-links { gap: 10px; }
+    .author-links a { font-size: 0.8rem; padding: 5px 10px; }
   }
 </style>
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -214,6 +266,10 @@
     <div class="badge">半本真人故事書 × 職涯導航</div>
     <h1>職涯六站地圖｜講座延伸文章</h1>
     <p>56歲品管資深部門主管 × 27年職場現場觀察<br>講座中提到的每一篇文章，都能在這裡找到對應章節與連結</p>
+    <div class="author-links">
+      <a href="https://vocus.cc/user/@iiStone" target="_blank">📍 方格子寫作平台</a>
+      <a href="https://www.threads.com/@iistone_1" target="_blank">📮 我想說說話｜Threads</a>
+    </div>
   </header>
 
   <div class="nav-hint">
@@ -752,6 +808,10 @@
   <footer>
     <p>講者：品管資深部門主管｜27年科技業現場經驗｜元智大學 DBA 博士生</p>
     <p style="margin-top:4px;">本頁收錄文章皆來自 1111 人力銀行職涯專欄，依講座章節重新編排，方便同學課後閱讀。</p>
+    <div class="footer-links">
+      <a href="https://vocus.cc/user/@iiStone" target="_blank">📍 方格子寫作平台</a>
+      <a href="https://www.threads.com/@iistone_1" target="_blank">📮 我想說說話｜Threads</a>
+    </div>
   </footer>
 </div>
 
